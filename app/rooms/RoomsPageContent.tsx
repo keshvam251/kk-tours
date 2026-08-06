@@ -1,0 +1,648 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+
+/* ─── Room types ─── */
+interface Room {
+  id: string | number;
+  name: string;
+  description: string;
+  price: string;
+  priceNote: string;
+  imageUrl?: string;
+  image?: string;
+  features: string[];
+  badge?: string;
+  gradient?: string;
+}
+
+/* ─── Facility icons (SVG inline) ─── */
+const facilities: { icon: React.ReactNode; label: string; desc: string }[] = [
+  {
+    label: "Free Wi-Fi",
+    desc: "High-speed internet in all rooms",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0" />
+      </svg>
+    ),
+  },
+  {
+    label: "Air Conditioning",
+    desc: "Climate-controlled rooms",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m-8-9H3m18 0h-1M5.636 5.636l.707.707m11.314 11.314l.707.707M5.636 18.364l.707-.707m11.314-11.314l.707-.707" />
+        <circle cx="12" cy="12" r="4" strokeWidth={1.5} />
+      </svg>
+    ),
+  },
+  {
+    label: "Hot Water 24/7",
+    desc: "Round-the-clock hot water",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 2c.5 3-2 5-2 8a4 4 0 108 0c0-3-2.5-5-2-8" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 22c-4 0-6-2-6-5 0-2 1-3 2-4" />
+      </svg>
+    ),
+  },
+  {
+    label: "Room Service",
+    desc: "Food delivered to your room",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 18h18M5 18v-1a7 7 0 0114 0v1M12 4v3m-4 1a4 4 0 018 0" />
+      </svg>
+    ),
+  },
+  {
+    label: "Free Parking",
+    desc: "Secure vehicle parking",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="3" strokeWidth={1.5} />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17V7h4a3 3 0 010 6H9" />
+      </svg>
+    ),
+  },
+  {
+    label: "TV & Entertainment",
+    desc: "LED TV with cable channels",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <rect x="2" y="5" width="20" height="13" rx="2" strokeWidth={1.5} />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 21h8m-4-3v3" />
+      </svg>
+    ),
+  },
+  {
+    label: "Clean Linen Daily",
+    desc: "Fresh bedding every day",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Near Vaishno Devi",
+    desc: "Steps from the yatra route",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+        <circle cx="12" cy="9" r="2.5" strokeWidth={1.5} />
+      </svg>
+    ),
+  },
+];
+
+export default function RoomsPageContent() {
+  const [enquiryRoom, setEnquiryRoom] = useState<Room | null>(null);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchFirebaseRooms() {
+      try {
+        const q = query(collection(db, "rooms"), orderBy("order", "asc"));
+        const snap = await getDocs(q);
+        if (!snap.empty) {
+          const dbRooms = snap.docs.map((d) => ({
+            id: d.id,
+            ...d.data(),
+          })) as Room[];
+          setRooms(dbRooms);
+        } else {
+          setRooms([]);
+        }
+      } catch (err) {
+        console.error("Error loading rooms:", err);
+        setRooms([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchFirebaseRooms();
+  }, []);
+
+  return (
+    <main className="bg-white">
+      {/* ════════════════════════════════════════════════════════
+          1. HERO BANNER
+         ════════════════════════════════════════════════════════ */}
+      <section className="relative h-[55vh] sm:h-[60vh] flex items-center justify-center overflow-hidden">
+        <Image
+          src="/hotel-exterior.png"
+          alt="Rooms & Stay — KK Tour & Travel"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+        <div className="relative z-10 text-center px-4">
+          <span className="inline-block text-amber-400 text-sm font-semibold tracking-widest uppercase mb-3">
+            Stay With Us
+          </span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight drop-shadow-xl">
+            Rooms &amp; Accommodation
+          </h1>
+          <p className="mt-4 text-white/70 text-base sm:text-lg max-w-xl mx-auto">
+            Comfortable, clean, and affordable stays in Katra — just steps away from Vaishno Devi Bhawan.
+          </p>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          2. FACILITIES GRID
+         ════════════════════════════════════════════════════════ */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">
+              Our Facilities
+            </span>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+              Everything You Need
+            </h2>
+            <p className="mt-4 text-gray-500 max-w-xl mx-auto">
+              All our rooms come with modern amenities to ensure your stay is comfortable and worry-free.
+            </p>
+            <div className="mt-5 mx-auto w-14 h-1 rounded-full bg-amber-500" />
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {facilities.map((f) => (
+              <div
+                key={f.label}
+                className="group flex flex-col items-center gap-2 bg-gray-50 hover:bg-amber-50 rounded-xl p-6 transition-all duration-300 border border-gray-100 hover:border-amber-200 hover:shadow-md"
+              >
+                <div className="text-gray-400 group-hover:text-amber-500 transition-colors duration-300">
+                  {f.icon}
+                </div>
+                <span className="text-sm font-semibold text-gray-700 group-hover:text-gray-900 text-center transition-colors duration-300">
+                  {f.label}
+                </span>
+                <span className="text-xs text-gray-400 text-center hidden sm:block">
+                  {f.desc}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          3. ROOM CARDS
+         ════════════════════════════════════════════════════════ */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">
+              Choose Your Room
+            </span>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+              Our Room Types
+            </h2>
+            <p className="mt-4 text-gray-500 max-w-xl mx-auto">
+              From budget-friendly to premium — pick the room that suits your needs and budget.
+            </p>
+            <div className="mt-5 mx-auto w-14 h-1 rounded-full bg-amber-500" />
+          </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {[1, 2].map((i) => (
+                <div key={i} className="bg-white rounded-3xl h-80 animate-pulse border border-gray-100" />
+              ))}
+            </div>
+          ) : rooms.length === 0 ? (
+            <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 max-w-xl mx-auto px-6">
+              <svg className="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">No Rooms Added Yet</h3>
+              <p className="text-gray-500 text-sm leading-relaxed mb-6">
+                Rooms added from the Admin Panel will appear here live with prices and features.
+              </p>
+              <a
+                href="/admin"
+                className="inline-block bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold px-6 py-2.5 rounded-full text-xs transition-all shadow-md"
+              >
+                Go to Admin Dashboard
+              </a>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {rooms.map((room) => (
+                <RoomCard
+                  key={room.id}
+                  room={room}
+                  onEnquiry={() => setEnquiryRoom(room)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          4. WHY STAY WITH US
+         ════════════════════════════════════════════════════════ */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">
+              Why Choose Us
+            </span>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+              The KK Difference
+            </h2>
+            <div className="mt-5 mx-auto w-14 h-1 rounded-full bg-amber-500" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              {
+                icon: "📍",
+                title: "Prime Location",
+                desc: "Located in the heart of Katra, just minutes from the Vaishno Devi route, bus stand, and local markets.",
+              },
+              {
+                icon: "💰",
+                title: "Best Prices",
+                desc: "Affordable rates with no hidden charges. Get the best value for clean, comfortable rooms in Katra.",
+              },
+              {
+                icon: "⭐",
+                title: "4.4★ Google Rating",
+                desc: "87+ happy guests have rated us. Read our reviews and see why travelers love staying with us.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="group bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:border-amber-200 transition-all duration-300 hover:shadow-lg text-center"
+              >
+                <span className="text-4xl group-hover:scale-110 inline-block transition-transform duration-300">
+                  {item.icon}
+                </span>
+                <h3 className="text-lg font-bold text-gray-900 mt-4 mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          5. CTA BANNER
+         ════════════════════════════════════════════════════════ */}
+      <section className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 py-16 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            Need Help Choosing a Room?
+          </h2>
+          <p className="mt-4 text-white/60 text-lg">
+            Call us or send a WhatsApp message — we&apos;ll help you find the perfect stay.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="https://wa.me/919697258667?text=Hi%2C%20I%20want%20to%20book%20a%20room%20in%20Katra."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold py-3.5 px-10 rounded-full transition-all duration-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-400/40 transform hover:scale-105"
+            >
+              Book on WhatsApp
+            </a>
+            <a
+              href="tel:+919697258667"
+              className="bg-white/10 hover:bg-white/20 text-white font-semibold py-3.5 px-10 rounded-full transition-all duration-300 border border-white/20"
+            >
+              Call +91 96972 58667
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
+          ROOM ENQUIRY POPUP
+         ════════════════════════════════════════════════════════ */}
+      {enquiryRoom && (
+        <RoomEnquiryPopup
+          room={enquiryRoom}
+          onClose={() => setEnquiryRoom(null)}
+        />
+      )}
+    </main>
+  );
+}
+
+/* ─── Room Card Component ─── */
+function RoomCard({
+  room,
+  onEnquiry,
+}: {
+  room: Room;
+  onEnquiry: () => void;
+}) {
+  const imgSrc = room.imageUrl || room.image || "/hotel-room.png";
+
+  return (
+    <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 group flex flex-col">
+      {/* Image */}
+      <div className="relative h-64 sm:h-72 overflow-hidden bg-gray-900">
+        <Image
+          src={imgSrc}
+          alt={room.name}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-700"
+          unoptimized={Boolean(room.imageUrl)}
+        />
+        {room.badge && (
+          <div className="absolute top-5 left-5 bg-amber-500 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
+            {room.badge}
+          </div>
+        )}
+        {/* Price overlay */}
+        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-5">
+          <div className="flex items-end gap-1">
+            <span className="text-3xl font-extrabold text-white drop-shadow-lg">
+              {room.price}
+            </span>
+            <span className="text-white/70 text-sm mb-1">
+              / {room.priceNote || "per night"}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Details */}
+      <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between">
+        <div>
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+            {room.name}
+          </h3>
+          <p className="text-gray-500 text-sm leading-relaxed mb-5">
+            {room.description}
+          </p>
+
+          {/* Feature tags */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {(room.features || []).map((feat) => (
+              <span
+                key={feat}
+                className="inline-flex items-center gap-1.5 bg-gray-50 rounded-full px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-100"
+              >
+                <svg
+                  className="w-3 h-3 text-emerald-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                {feat}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-100">
+          <button
+            onClick={onEnquiry}
+            className="flex-1 flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-400/30 hover:scale-[1.02] cursor-pointer text-sm"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            Send Enquiry
+          </button>
+          <a
+            href="tel:+919697258667"
+            className="flex-1 flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-xl transition-all duration-300 text-sm"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            Call Now
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Room Enquiry Popup ─── */
+function RoomEnquiryPopup({
+  room,
+  onClose,
+}: {
+  room: Room;
+  onClose: () => void;
+}) {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    checkin: "",
+    checkout: "",
+    guests: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const text = [
+      `Hi, I'd like to enquire about a room!`,
+      ``,
+      `🏨 Room: ${room.name} (${room.price} ${room.priceNote || "per night"})`,
+      `👤 Name: ${formData.name}`,
+      `📞 Phone: ${formData.phone}`,
+      formData.checkin ? `📅 Check-in: ${formData.checkin}` : "",
+      formData.checkout ? `📅 Check-out: ${formData.checkout}` : "",
+      formData.guests ? `👥 Guests: ${formData.guests}` : "",
+      formData.message ? `💬 Note: ${formData.message}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const encoded = encodeURIComponent(text);
+    window.open(`https://wa.me/919697258667?text=${encoded}`, "_blank");
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Card */}
+      <div
+        className="relative w-full max-w-md transform"
+        style={{
+          background: "rgba(255, 255, 255, 0.97)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          borderRadius: "1.5rem",
+          boxShadow:
+            "0 25px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.1)",
+        }}
+      >
+        {/* Header */}
+        <div
+          className="relative px-6 py-5 rounded-t-[1.5rem] bg-gray-900"
+        >
+          <div className="relative z-10">
+            <h3 className="text-xl font-bold text-white tracking-tight">
+              Enquire: <span className="text-amber-300">{room.name}</span>
+            </h3>
+            <p className="text-white/60 text-sm mt-1">
+              {room.price} / {room.priceNote || "per night"} — Your details go to WhatsApp
+            </p>
+          </div>
+
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-all duration-200 cursor-pointer z-10"
+            aria-label="Close enquiry popup"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {/* Name */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+              Your Name *
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              placeholder="Enter your full name"
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all duration-200"
+            />
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+              Phone Number *
+            </label>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              placeholder="+91 XXXXX XXXXX"
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all duration-200"
+            />
+          </div>
+
+          {/* Check-in / Check-out Row */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Check-in
+              </label>
+              <input
+                type="date"
+                name="checkin"
+                value={formData.checkin}
+                onChange={handleChange}
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all duration-200"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Check-out
+              </label>
+              <input
+                type="date"
+                name="checkout"
+                value={formData.checkout}
+                onChange={handleChange}
+                className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all duration-200"
+              />
+            </div>
+          </div>
+
+          {/* Guests */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+              Number of Guests
+            </label>
+            <input
+              type="number"
+              name="guests"
+              value={formData.guests}
+              onChange={handleChange}
+              min="1"
+              max="10"
+              placeholder="e.g. 2"
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all duration-200"
+            />
+          </div>
+
+          {/* Message */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+              Any Special Request?
+            </label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              rows={2}
+              placeholder="e.g. Need early check-in, extra mattress..."
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all duration-200 resize-none"
+            />
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-400/30 hover:scale-[1.02] cursor-pointer text-sm"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+            Send Enquiry on WhatsApp
+          </button>
+
+          <p className="text-center text-xs text-gray-400 mt-2">
+            Your details will be shared via WhatsApp for quick booking
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+}
