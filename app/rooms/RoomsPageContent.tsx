@@ -100,10 +100,56 @@ const facilities: { icon: React.ReactNode; label: string; desc: string }[] = [
   },
 ];
 
+/* ─── Fallback Sample Rooms ─── */
+const SAMPLE_ROOMS: Room[] = [
+  {
+    id: "sample-1",
+    name: "Deluxe AC Family Room",
+    description: "Spacious 4-bed room with plush bedding, split AC, smart TV, and modern attached bathroom. Ideal for families visiting Katra.",
+    price: "₹1,499",
+    priceNote: "per night",
+    imageUrl: "/hotel-room.png",
+    features: ["Split AC", "4-Bed Setup", "24/7 Hot Water", "Free High-Speed Wi-Fi", "LED TV"],
+    badge: "Most Popular",
+  },
+  {
+    id: "sample-2",
+    name: "Executive Double Room",
+    description: "Premium king bed room with scenic mountain views, luxury linen, 24/7 room service, and work desk.",
+    price: "₹1,999",
+    priceNote: "per night",
+    imageUrl: "/hotel-room.png",
+    features: ["King Bed", "Mountain View", "Split AC", "24/7 Room Service", "Breakfast Included"],
+    badge: "Luxury Choice",
+  },
+  {
+    id: "sample-3",
+    name: "Super Deluxe Triple Room",
+    description: "Comfortable triple occupancy room equipped with hot water shower, high speed Wi-Fi, and complimentary tea/coffee maker.",
+    price: "₹1,799",
+    priceNote: "per night",
+    imageUrl: "/hotel-room.png",
+    features: ["3-Bed Setup", "Air Conditioning", "Hot Water 24/7", "Clean Daily Linen", "Elevator Access"],
+    badge: "Best Value",
+  },
+  {
+    id: "sample-4",
+    name: "Standard Economy Stay",
+    description: "Clean, cozy, budget-friendly room located close to Yatra slip counter and main Katra bazaar.",
+    price: "₹999",
+    priceNote: "per night",
+    imageUrl: "/hotel-room.png",
+    features: ["Double Bed", "Attached Bath", "24/7 Water", "Free Parking", "Near Yatra Slip"],
+    badge: "Budget Friendly",
+  },
+];
+
 export default function RoomsPageContent() {
   const [enquiryRoom, setEnquiryRoom] = useState<Room | null>(null);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     async function fetchFirebaseRooms() {
@@ -128,6 +174,25 @@ export default function RoomsPageContent() {
     }
     fetchFirebaseRooms();
   }, []);
+
+  const displayRooms = rooms.length > 0 ? rooms : SAMPLE_ROOMS;
+
+  // Auto slide ticker
+  useEffect(() => {
+    if (isPaused || displayRooms.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % displayRooms.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [isPaused, displayRooms.length]);
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + displayRooms.length) % displayRooms.length);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % displayRooms.length);
+  };
 
   return (
     <main className="bg-white">
@@ -196,19 +261,19 @@ export default function RoomsPageContent() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
-          3. ROOM CARDS
+          3. MOVING ROOM CARDS SHOWCASE
          ════════════════════════════════════════════════════════ */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase">
-              Choose Your Room
+          <div className="text-center mb-10">
+            <span className="text-amber-500 font-semibold text-sm tracking-widest uppercase bg-amber-100/60 px-4 py-1.5 rounded-full">
+              ✨ Moving Cards Showcase
             </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+            <h2 className="mt-4 text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
               Our Room Types
             </h2>
-            <p className="mt-4 text-gray-500 max-w-xl mx-auto">
-              From budget-friendly to premium — pick the room that suits your needs and budget.
+            <p className="mt-3 text-gray-500 max-w-xl mx-auto">
+              Explore room cards in action with interactive auto-sliding motion.
             </p>
             <div className="mt-5 mx-auto w-14 h-1 rounded-full bg-amber-500" />
           </div>
@@ -219,31 +284,73 @@ export default function RoomsPageContent() {
                 <div key={i} className="bg-white rounded-3xl h-80 animate-pulse border border-gray-100" />
               ))}
             </div>
-          ) : rooms.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 max-w-xl mx-auto px-6">
-              <svg className="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">No Rooms Added Yet</h3>
-              <p className="text-gray-500 text-sm leading-relaxed mb-6">
-                Rooms added from the Admin Panel will appear here live with prices and features.
-              </p>
-              <a
-                href="/admin"
-                className="inline-block bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold px-6 py-2.5 rounded-full text-xs transition-all shadow-md"
-              >
-                Go to Admin Dashboard
-              </a>
-            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {rooms.map((room) => (
-                <RoomCard
-                  key={room.id}
-                  room={room}
-                  onEnquiry={() => setEnquiryRoom(room)}
-                />
-              ))}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {/* Controls bar */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-3 py-1.5 rounded-full border border-amber-200">
+                  Room Card {currentIndex + 1} of {displayRooms.length}
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handlePrev}
+                    className="w-10 h-10 rounded-full bg-white hover:bg-amber-500 hover:text-gray-950 text-gray-700 border border-gray-200 transition-all flex items-center justify-center shadow-sm cursor-pointer"
+                    aria-label="Previous room"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={handleNext}
+                    className="w-10 h-10 rounded-full bg-white hover:bg-amber-500 hover:text-gray-950 text-gray-700 border border-gray-200 transition-all flex items-center justify-center shadow-sm cursor-pointer"
+                    aria-label="Next room"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Moving Cards Carousel Track */}
+              <div className="overflow-hidden rounded-3xl p-1">
+                <div
+                  className="flex transition-transform duration-700 ease-out gap-8"
+                  style={{
+                    transform: `translateX(-${currentIndex * 100}%)`,
+                  }}
+                >
+                  {displayRooms.map((room) => (
+                    <div key={room.id} className="w-full flex-shrink-0">
+                      <RoomCard
+                        room={room}
+                        onEnquiry={() => setEnquiryRoom(room)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Slider Dots */}
+              <div className="flex items-center justify-center gap-2.5 mt-8">
+                {displayRooms.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentIndex(idx)}
+                    className={`transition-all duration-300 rounded-full cursor-pointer ${
+                      currentIndex === idx
+                        ? "w-8 h-3 bg-amber-500 shadow-md"
+                        : "w-3 h-3 bg-gray-300 hover:bg-gray-400"
+                    }`}
+                    aria-label={`Jump to room ${idx + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>
