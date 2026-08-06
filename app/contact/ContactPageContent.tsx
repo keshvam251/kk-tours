@@ -130,7 +130,7 @@ export default function ContactPageContent() {
 
             {/* Website */}
             <a
-              href="https://hotel.kk.international.com"
+              href="https://www.kkkatra.com"
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-white rounded-2xl p-7 shadow-xl border border-gray-100 hover:border-amber-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
@@ -141,7 +141,7 @@ export default function ContactPageContent() {
                 </svg>
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-1">Official Website</h3>
-              <p className="text-gray-500 text-sm">hotel.kk.international.com</p>
+              <p className="text-gray-500 text-sm">www.kkkatra.com</p>
               <p className="text-amber-500 text-xs font-medium mt-2">Visit website →</p>
             </a>
 

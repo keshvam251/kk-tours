@@ -158,7 +158,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://hotel.kk.international.com"
+                href="https://www.kkkatra.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-white/50 hover:text-white transition-colors duration-300 group"
@@ -169,7 +169,7 @@ export default function Footer() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white/70 group-hover:text-white">hotel.kk.international.com</p>
+                  <p className="text-sm font-medium text-white/70 group-hover:text-white">www.kkkatra.com</p>
                   <p className="text-xs text-white/30">Official Website</p>
                 </div>
               </a>
