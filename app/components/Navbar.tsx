@@ -129,7 +129,7 @@ export default function Navbar() {
           {/* ── Right side: Phone + CTA ── */}
           <div className="hidden lg:flex items-center gap-5 shrink-0">
             <a
-              href="tel:+919697258667"
+              href="tel:+918082069080"
               className="flex items-center gap-2 text-white/60 hover:text-white transition-colors duration-300 text-sm"
             >
               <svg
@@ -145,7 +145,7 @@ export default function Navbar() {
                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                 />
               </svg>
-              +91 96972 58667
+              +91 80820 69080
             </a>
             <button
               onClick={() => setBookingOpen(true)}
@@ -213,7 +213,7 @@ export default function Navbar() {
             ))}
 
             <a
-              href="tel:+919697258667"
+              href="tel:+918082069080"
               className="flex items-center gap-3 text-white/60 hover:text-white py-4 border-b border-white/8 transition-colors duration-300"
             >
               <svg
@@ -229,7 +229,7 @@ export default function Navbar() {
                   d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                 />
               </svg>
-              +91 96972 58667
+              +91 80820 69080
             </a>
 
             <button

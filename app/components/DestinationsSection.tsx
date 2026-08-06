@@ -212,7 +212,7 @@ function DestinationCard({ destination }: { destination: Destination }) {
           <span className="text-xl font-extrabold text-gray-900">{destination.price}</span>
         </div>
         <a
-          href={`https://wa.me/919697258667?text=${whatsappText}`}
+          href={`https://wa.me/918082069080?text=${whatsappText}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold px-5 py-2.5 rounded-2xl text-xs sm:text-sm transition-all shadow-sm hover:shadow-md cursor-pointer transform hover:scale-105"

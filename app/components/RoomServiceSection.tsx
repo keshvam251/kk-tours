@@ -168,7 +168,7 @@ export default function RoomServiceSection() {
             <h3 className="text-lg font-bold text-gray-800 mb-1">No Rooms Available Currently</h3>
             <p className="text-gray-500 text-xs mb-4">Rooms managed from the Admin Panel will be shown here.</p>
             <a
-              href="https://wa.me/919697258667?text=Hi%2C%20I%20want%20to%20enquire%20about%20room%20availability%20in%20Katra."
+              href="https://wa.me/918082069080?text=Hi%2C%20I%20want%20to%20enquire%20about%20room%20availability%20in%20Katra."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold px-5 py-2 rounded-full text-xs transition-all shadow-sm"
@@ -258,7 +258,7 @@ export default function RoomServiceSection() {
                         </span>
                       </div>
                       <a
-                        href={`https://wa.me/919697258667?text=Hi%2C%20I%20am%20interested%20in%20booking%20the%20${encodeURIComponent(rooms[activeRoom].name)}.`}
+                        href={`https://wa.me/918082069080?text=Hi%2C%20I%20am%20interested%20in%20booking%20the%20${encodeURIComponent(rooms[activeRoom].name)}.`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"

@@ -314,7 +314,7 @@ export default function RoomsPageContent() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://wa.me/919697258667?text=Hi%2C%20I%20want%20to%20book%20a%20room%20in%20Katra."
+              href="https://wa.me/918082069080?text=Hi%2C%20I%20want%20to%20book%20a%20room%20in%20Katra."
               target="_blank"
               rel="noopener noreferrer"
               className="bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold py-3.5 px-10 rounded-full transition-all duration-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-400/40 transform hover:scale-105"
@@ -322,10 +322,10 @@ export default function RoomsPageContent() {
               Book on WhatsApp
             </a>
             <a
-              href="tel:+919697258667"
+              href="tel:+918082069080"
               className="bg-white/10 hover:bg-white/20 text-white font-semibold py-3.5 px-10 rounded-full transition-all duration-300 border border-white/20"
             >
-              Call +91 96972 58667
+              Call +91 80820 69080
             </a>
           </div>
         </div>
@@ -429,7 +429,7 @@ function RoomCard({
             Send Enquiry
           </button>
           <a
-            href="tel:+919697258667"
+            href="tel:+918082069080"
             className="flex-1 flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-xl transition-all duration-300 text-sm"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -484,7 +484,7 @@ function RoomEnquiryPopup({
       .join("\n");
 
     const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/919697258667?text=${encoded}`, "_blank");
+    window.open(`https://wa.me/918082069080?text=${encoded}`, "_blank");
     onClose();
   };
 

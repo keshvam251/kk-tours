@@ -36,7 +36,7 @@ export default function ContactPageContent() {
       .join("\n");
 
     const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/919697258667?text=${encoded}`, "_blank");
+    window.open(`https://wa.me/918082069080?text=${encoded}`, "_blank");
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 4000);
     setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
@@ -75,10 +75,10 @@ export default function ContactPageContent() {
          ════════════════════════════════════════════════════════ */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 -mt-24 relative z-20">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 -mt-24 relative z-20">
             {/* Phone */}
             <a
-              href="tel:+919697258667"
+              href="tel:+918082069080"
               className="group bg-white rounded-2xl p-7 shadow-xl border border-gray-100 hover:border-amber-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
             >
               <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
@@ -92,13 +92,13 @@ export default function ContactPageContent() {
                 </svg>
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-1">Phone</h3>
-              <p className="text-gray-500 text-sm">+91 96972 58667</p>
+              <p className="text-gray-500 text-sm">+91 80820 69080</p>
               <p className="text-amber-500 text-xs font-medium mt-2">Tap to call →</p>
             </a>
 
             {/* WhatsApp */}
             <a
-              href="https://wa.me/919697258667?text=Hi%20Ankur%2C%20I%20want%20to%20know%20more%20about%20your%20services."
+              href="https://wa.me/918082069080?text=Hi%20Ankur%2C%20I%20want%20to%20know%20more%20about%20your%20services."
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-white rounded-2xl p-7 shadow-xl border border-gray-100 hover:border-emerald-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
@@ -109,8 +109,40 @@ export default function ContactPageContent() {
                 </svg>
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-1">WhatsApp</h3>
-              <p className="text-gray-500 text-sm">Chat with Ankur directly</p>
+              <p className="text-gray-500 text-sm">Chat directly on WhatsApp</p>
               <p className="text-emerald-500 text-xs font-medium mt-2">Open chat →</p>
+            </a>
+
+            {/* Email */}
+            <a
+              href="mailto:kktourtravel21@gmail.com"
+              className="group bg-white rounded-2xl p-7 shadow-xl border border-gray-100 hover:border-red-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center mb-4 group-hover:bg-red-500 group-hover:text-white transition-colors duration-300">
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">Email</h3>
+              <p className="text-gray-500 text-sm">kktourtravel21@gmail.com</p>
+              <p className="text-red-500 text-xs font-medium mt-2">Send an email →</p>
+            </a>
+
+            {/* Website */}
+            <a
+              href="https://hotel.kk.international.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white rounded-2xl p-7 shadow-xl border border-gray-100 hover:border-amber-200 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300">
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">Official Website</h3>
+              <p className="text-gray-500 text-sm">hotel.kk.international.com</p>
+              <p className="text-amber-500 text-xs font-medium mt-2">Visit website →</p>
             </a>
 
             {/* Address */}
@@ -372,7 +404,7 @@ export default function ContactPageContent() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://wa.me/919697258667?text=Hi%20Ankur%2C%20I%20want%20to%20plan%20a%20trip."
+              href="https://wa.me/918082069080?text=Hi%20Ankur%2C%20I%20want%20to%20plan%20a%20trip."
               target="_blank"
               rel="noopener noreferrer"
               className="bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold py-3.5 px-10 rounded-full transition-all duration-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-400/40 transform hover:scale-105"
@@ -380,10 +412,10 @@ export default function ContactPageContent() {
               Chat on WhatsApp
             </a>
             <a
-              href="tel:+919697258667"
+              href="tel:+918082069080"
               className="bg-white/10 hover:bg-white/20 text-white font-semibold py-3.5 px-10 rounded-full transition-all duration-300 border border-white/20"
             >
-              Call +91 96972 58667
+              Call +91 80820 69080
             </a>
           </div>
         </div>

@@ -56,7 +56,7 @@ export default function BookNowPopup({ isOpen, onClose }: BookNowPopupProps) {
       .join("\n");
 
     const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/919697258667?text=${encoded}`, "_blank");
+    window.open(`https://wa.me/918082069080?text=${encoded}`, "_blank");
     onClose();
     setFormData({ name: "", phone: "", destination: "", travelers: "", date: "", message: "" });
   };

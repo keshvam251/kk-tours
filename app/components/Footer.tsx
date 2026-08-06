@@ -52,7 +52,7 @@ export default function Footer() {
             {/* Social / WhatsApp */}
             <div className="flex items-center gap-3">
               <a
-                href="https://wa.me/919697258667?text=Hi%20Ankur%2C%20I%20want%20to%20know%20more%20about%20your%20services."
+                href="https://wa.me/918082069080?text=Hi%20Ankur%2C%20I%20want%20to%20know%20more%20about%20your%20services."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-white/10 hover:bg-emerald-500 flex items-center justify-center transition-all duration-300 group"
@@ -63,7 +63,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="tel:+919697258667"
+                href="tel:+918082069080"
                 className="w-10 h-10 rounded-xl bg-white/10 hover:bg-amber-500 flex items-center justify-center transition-all duration-300 group"
                 aria-label="Phone"
               >
@@ -129,7 +129,7 @@ export default function Footer() {
             </h4>
             <div className="space-y-4">
               <a
-                href="tel:+919697258667"
+                href="tel:+918082069080"
                 className="flex items-center gap-3 text-white/50 hover:text-white transition-colors duration-300 group"
               >
                 <div className="w-9 h-9 rounded-lg bg-white/10 group-hover:bg-amber-500/20 flex items-center justify-center transition-colors shrink-0">
@@ -138,8 +138,40 @@ export default function Footer() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white/70 group-hover:text-white">+91 96972 58667</p>
+                  <p className="text-sm font-medium text-white/70 group-hover:text-white">+91 80820 69080</p>
                   <p className="text-xs text-white/30">Available 24/7</p>
+                </div>
+              </a>
+
+              <a
+                href="mailto:kktourtravel21@gmail.com"
+                className="flex items-center gap-3 text-white/50 hover:text-white transition-colors duration-300 group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-white/10 group-hover:bg-amber-500/20 flex items-center justify-center transition-colors shrink-0">
+                  <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white/70 group-hover:text-white">kktourtravel21@gmail.com</p>
+                  <p className="text-xs text-white/30">Email Support</p>
+                </div>
+              </a>
+
+              <a
+                href="https://hotel.kk.international.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-white/50 hover:text-white transition-colors duration-300 group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-white/10 group-hover:bg-amber-500/20 flex items-center justify-center transition-colors shrink-0">
+                  <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white/70 group-hover:text-white">hotel.kk.international.com</p>
+                  <p className="text-xs text-white/30">Official Website</p>
                 </div>
               </a>
 

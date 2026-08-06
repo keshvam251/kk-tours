@@ -152,7 +152,7 @@ export default function GalleryPageContent() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://wa.me/919697258667?text=Hi%20Ankur%2C%20I%20saw%20the%20gallery%20and%20want%20to%20plan%20a%20trip!"
+              href="https://wa.me/918082069080?text=Hi%20Ankur%2C%20I%20saw%20the%20gallery%20and%20want%20to%20plan%20a%20trip!"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold py-3.5 px-10 rounded-full transition-all duration-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-400/40 transform hover:scale-105"
@@ -287,7 +287,7 @@ function Lightbox({
             </p>
           </div>
           <a
-            href={`https://wa.me/919697258667?text=Hi%2C%20I%20am%20interested%20in%20visiting%20${encodeURIComponent(item.title)}.`}
+            href={`https://wa.me/918082069080?text=Hi%2C%20I%20am%20interested%20in%20visiting%20${encodeURIComponent(item.title)}.`}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold text-sm py-2.5 px-6 rounded-full transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 shrink-0"

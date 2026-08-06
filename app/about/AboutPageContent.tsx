@@ -201,16 +201,16 @@ export default function AboutPageContent() {
             {/* Quick contact */}
             <div className="mt-8 flex flex-wrap gap-4">
               <a
-                href="tel:+919697258667"
+                href="tel:+918082069080"
                 className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium text-sm py-3 px-6 rounded-full transition-colors duration-300"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                +91 96972 58667
+                +91 80820 69080
               </a>
               <a
-                href="https://wa.me/919697258667?text=Hi%20Ankur%2C%20I%20want%20to%20know%20more%20about%20your%20services."
+                href="https://wa.me/918082069080?text=Hi%20Ankur%2C%20I%20want%20to%20know%20more%20about%20your%20services."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-medium text-sm py-3 px-6 rounded-full transition-colors duration-300 shadow-lg shadow-amber-500/20"
@@ -411,8 +411,8 @@ export default function AboutPageContent() {
                   </div>
                   <h4 className="font-bold text-gray-900">Phone</h4>
                 </div>
-                <a href="tel:+919697258667" className="text-gray-500 text-sm hover:text-amber-500 transition-colors">
-                  +91 96972 58667
+                <a href="tel:+918082069080" className="text-gray-500 text-sm hover:text-amber-500 transition-colors">
+                  +91 80820 69080
                 </a>
               </div>
 
@@ -457,7 +457,7 @@ export default function AboutPageContent() {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="https://wa.me/919697258667?text=Hi%20Ankur%2C%20I%20want%20to%20plan%20a%20trip%20to%20Kashmir."
+              href="https://wa.me/918082069080?text=Hi%20Ankur%2C%20I%20want%20to%20plan%20a%20trip%20to%20Kashmir."
               target="_blank"
               rel="noopener noreferrer"
               className="bg-amber-500 hover:bg-amber-400 text-gray-900 font-semibold py-3.5 px-10 rounded-full transition-all duration-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-400/40 transform hover:scale-105"
@@ -465,7 +465,7 @@ export default function AboutPageContent() {
               Plan My Trip on WhatsApp
             </a>
             <a
-              href="tel:+919697258667"
+              href="tel:+918082069080"
               className="bg-white/10 hover:bg-white/20 text-white font-semibold py-3.5 px-10 rounded-full transition-all duration-300 border border-white/20"
             >
               Call Now
