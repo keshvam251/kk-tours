@@ -29,19 +29,19 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-5">
               <Image
                 src="/logo.png"
-                alt="KK Tours and Travels Katra Logo"
+                alt="KK International Tours and Travels and Home Stay Logo"
                 width={42}
                 height={42}
                 className="h-10 w-auto object-contain rounded-md"
                 unoptimized
               />
               <span
-                className="text-xl font-bold tracking-tight"
+                className="text-white text-lg font-bold tracking-tight flex flex-col leading-tight"
                 style={{ fontFamily: "'Geist', sans-serif" }}
               >
-                KK<span className="text-amber-400">tour</span>
-                <span className="text-white/50 font-normal text-sm ml-0.5">
-                  travel
+                <span>KK <span className="text-amber-400">International</span></span>
+                <span className="text-white/50 font-normal text-[11px] tracking-wide">
+                  Tours &amp; Travels &amp; Home Stay
                 </span>
               </span>
             </div>
@@ -210,7 +210,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-white/30 text-xs text-center sm:text-left">
-            © {new Date().getFullYear()} KK Tour &amp; Travel, Katra. All rights reserved.
+            © {new Date().getFullYear()} KK International Tours &amp; Travels &amp; Home Stay. All rights reserved.
           </p>
           <p className="text-white/30 text-xs text-center sm:text-right flex items-center gap-1.5">
             Developed by{" "}

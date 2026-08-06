@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import RoomsPageContent from "./RoomsPageContent";
 
 export const metadata: Metadata = {
-  title: "Rooms & Stay | KK Tour & Travel — Katra, Jammu & Kashmir",
+  title: "Rooms & Home Stay | KK International Tours & Travels & Home Stay",
   description:
-    "Book comfortable and affordable rooms in Katra near Vaishno Devi. Deluxe rooms, family suites, and standard rooms with all modern amenities. KK Tour & Travel.",
+    "Book comfortable rooms and home stays in Katra near Vaishno Devi. Deluxe rooms, family suites, and standard rooms with all modern amenities. KK International.",
 };
 
 export default function RoomsPage() {

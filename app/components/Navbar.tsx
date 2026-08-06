@@ -97,12 +97,12 @@ export default function Navbar() {
               unoptimized
             />
             <span
-              className="text-white text-xl font-bold tracking-tight"
+              className="text-white text-[15px] sm:text-lg font-bold tracking-tight flex flex-col leading-tight"
               style={{ fontFamily: "'Geist', sans-serif" }}
             >
-              KK<span className="text-amber-400">tour</span>
-              <span className="text-white/50 font-normal text-sm ml-0.5 hidden sm:inline">
-                travel
+              <span>KK <span className="text-amber-400">International</span></span>
+              <span className="text-white/50 font-normal text-[10px] sm:text-[11px] tracking-wide">
+                Tours &amp; Travels &amp; Home Stay
               </span>
             </span>
           </button>
