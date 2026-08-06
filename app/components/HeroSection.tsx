@@ -28,12 +28,7 @@ export default function HeroSection() {
           Explore breathtaking destinations, curated tours, and unforgettable experiences tailored just for you.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="/tours"
-            className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-8 rounded-full transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-          >
-            Explore Tours
-          </Link>
+          
           <Link
             href="/contact"
             className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-3 px-8 rounded-full transition duration-300 border border-white/30 shadow-lg hover:shadow-xl transform hover:scale-105"
