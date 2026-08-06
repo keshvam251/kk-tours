@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -25,17 +26,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Column 1 — Brand */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-2 mb-5">
-              <svg viewBox="0 0 32 32" className="w-8 h-8" fill="none">
-                <circle cx="16" cy="16" r="14" stroke="rgba(251,191,36,0.8)" strokeWidth="1.5" />
-                <ellipse cx="16" cy="16" rx="8" ry="14" stroke="rgba(251,191,36,0.6)" strokeWidth="1" />
-                <line x1="2" y1="16" x2="30" y2="16" stroke="rgba(251,191,36,0.4)" strokeWidth="1" />
-                <line x1="16" y1="2" x2="16" y2="30" stroke="rgba(251,191,36,0.4)" strokeWidth="1" />
-                <g transform="translate(20,8) rotate(30)">
-                  <path d="M0,0 L3,-1 L5,0 L3,1Z" fill="#fbbf24" />
-                  <path d="M1,-0.5 L2,-3 L3,-0.5" fill="#fbbf24" opacity="0.8" />
-                </g>
-              </svg>
+            <div className="flex items-center gap-3 mb-5">
+              <Image
+                src="/logo.png"
+                alt="KK Tours and Travels Katra Logo"
+                width={42}
+                height={42}
+                className="h-10 w-auto object-contain rounded-md"
+                unoptimized
+              />
               <span
                 className="text-xl font-bold tracking-tight"
                 style={{ fontFamily: "'Geist', sans-serif" }}

@@ -14,8 +14,51 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "KK Tour & Travel | Katra, Jammu & Kashmir",
-  description: "Your trusted travel partner for Vaishno Devi yatra, Kashmir tours, and comfortable stays in Katra.",
+  metadataBase: new URL("https://kk-tours-six.vercel.app"),
+  title: {
+    default: "KK Tours and Travels Katra | Journey to Divinity",
+    template: "%s | KK Tours and Travels Katra",
+  },
+  description:
+    "Your trusted travel partner in Katra for Vaishno Devi yatra packages, Kashmir tours, hotel bookings, and cab services.",
+  keywords: [
+    "KK Tours",
+    "KK Tours Katra",
+    "Vaishno Devi Yatra",
+    "Kashmir Tour Packages",
+    "Katra Hotel Booking",
+    "Jammu Kashmir Travel",
+  ],
+  authors: [{ name: "KK Tours & Travels Katra" }],
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
+  openGraph: {
+    title: "KK Tours and Travels Katra | Journey to Divinity",
+    description:
+      "Your trusted travel partner in Katra for Vaishno Devi yatra packages, Kashmir tours, hotel bookings, and cab services.",
+    url: "https://kk-tours-six.vercel.app",
+    siteName: "KK Tours and Travels Katra",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 1200,
+        alt: "KK Tours and Travels Katra Logo",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "KK Tours and Travels Katra | Journey to Divinity",
+    description:
+      "Your trusted travel partner in Katra for Vaishno Devi yatra packages, Kashmir tours, hotel bookings, and cab services.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

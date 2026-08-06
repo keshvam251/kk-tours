@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "admin123";
@@ -148,14 +149,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="hidden lg:flex flex-col w-64 bg-gray-900 border-r border-white/5 fixed inset-y-0 left-0 z-30">
         {/* Logo */}
         <div className="px-6 py-5 border-b border-white/5">
-          <Link href="/admin" className="flex items-center gap-2">
-            <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none">
-              <circle cx="16" cy="16" r="14" stroke="rgba(251,191,36,0.8)" strokeWidth="1.5" />
-              <ellipse cx="16" cy="16" rx="8" ry="14" stroke="rgba(251,191,36,0.6)" strokeWidth="1" />
-              <g transform="translate(20,8) rotate(30)">
-                <path d="M0,0 L3,-1 L5,0 L3,1Z" fill="#fbbf24" />
-              </g>
-            </svg>
+          <Link href="/admin" className="flex items-center gap-3">
+            <Image
+              src="/logo.png"
+              alt="KK Tours Admin Logo"
+              width={36}
+              height={36}
+              className="h-8 w-auto object-contain rounded-md"
+              unoptimized
+            />
             <span className="text-white font-bold text-lg">
               KK<span className="text-amber-400">admin</span>
             </span>
