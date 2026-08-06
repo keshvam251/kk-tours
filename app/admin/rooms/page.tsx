@@ -122,9 +122,13 @@ export default function AdminRooms() {
       }
       await fetchItems();
       resetForm();
-    } catch (err) {
+    } catch (err: any) {
       console.error("Save error:", err);
-      alert("Failed to save. Check Firebase config.");
+      if (err?.code === "permission-denied" || err?.message?.includes("permission")) {
+        alert("🔒 Firebase Permission Error: Please update your Firestore Security Rules in Firebase Console to 'allow read, write: if true;' and click Publish.");
+      } else {
+        alert(`Failed to save room: ${err?.message || err}`);
+      }
     } finally {
       setSaving(false);
     }

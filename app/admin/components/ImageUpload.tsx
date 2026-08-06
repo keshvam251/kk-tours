@@ -35,8 +35,8 @@ export default function ImageUpload({ currentUrl, folder, onUpload }: ImageUploa
         img.src = event.target?.result as string;
         img.onload = () => {
           const canvas = document.createElement("canvas");
-          const MAX_WIDTH = 1200;
-          const MAX_HEIGHT = 1200;
+          const MAX_WIDTH = 800;
+          const MAX_HEIGHT = 800;
           let width = img.width;
           let height = img.height;
 
@@ -61,8 +61,8 @@ export default function ImageUpload({ currentUrl, folder, onUpload }: ImageUploa
             ctx.drawImage(img, 0, 0, width, height);
           }
 
-          // Compress to WebP / JPEG format with 0.75 quality (~100KB output)
-          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.75);
+          // Compress to JPEG format with 0.65 quality (~40KB-70KB output)
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.65);
           resolve(compressedDataUrl);
         };
         img.onerror = (err) => reject(err);
